@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Memory Management Visualizer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <h1>Dynamic Memory Management Visualizer</h1>
+      <p>
+        Explore paging, segmentation, and virtual memory with interactive
+        simulations.
+      </p>
+    </header>
+
+    <main class="layout">
+      <aside class="panel info">
+        <h2>Project Modes</h2>
+        <ul>
+          <li><strong>Segmentation:</strong> base-limit translation and validation.</li>
+          <li><strong>Paging:</strong> logical-to-physical address mapping.</li>
+          <li>
+            <strong>Virtual Memory:</strong> page references, faults, hits, and replacement.
+          </li>
+        </ul>
+        <p class="tip">
+          Tip: Adjust inputs and run each simulator to compare how memory is managed.
+        </p>
+      </aside>
+
+      <section class="panel simulator">
+        <div class="tabs">
+          <button class="tab active" data-tab="segmentation">Segmentation</button>
+          <button class="tab" data-tab="paging">Paging</button>
+          <button class="tab" data-tab="virtual">Virtual Memory</button>
+        </div>
+
+        <div class="tab-content active" id="segmentation">
+          <h2>Segmentation Simulator</h2>
+          <div class="grid">
+            <label>
+              Segment Table (CSV: id,base,limit per line)
+              <textarea id="segmentTable">0,1000,400
+1,3000,1200
+2,5000,600</textarea>
+            </label>
+            <label>
+              Logical Address Requests (segment:offset, comma-separated)
+              <input id="segmentRequests" value="0:120, 1:1100, 2:700, 1:100" />
+            </label>
+          </div>
+          <button id="runSegmentation">Run Segmentation</button>
+          <div id="segmentationOutput" class="output"></div>
+        </div>
+
+        <div class="tab-content" id="paging">
+          <h2>Paging Simulator</h2>
+          <div class="grid two">
+            <label>
+              Page Size
+              <input id="pageSize" type="number" min="1" value="256" />
+            </label>
+            <label>
+              Logical Address Space Size
+              <input id="logicalSpace" type="number" min="1" value="4096" />
+            </label>
+            <label>
+              Physical Frame Count
+              <input id="frameCount" type="number" min="1" value="8" />
+            </label>
+            <label>
+              Address Requests (comma-separated)
+              <input id="pagingRequests" value="120, 300, 700, 1025, 3000" />
+            </label>
+          </div>
+          <button id="runPaging">Run Paging</button>
+          <div id="pagingOutput" class="output"></div>
+        </div>
+
+        <div class="tab-content" id="virtual">
+          <h2>Virtual Memory Simulator</h2>
+          <div class="grid two">
+            <label>
+              Number of Frames
+              <input id="vmFrames" type="number" min="1" value="3" />
+            </label>
+            <label>
+              Replacement Algorithm
+              <select id="algorithm">
+                <option value="FIFO">FIFO</option>
+                <option value="LRU">LRU</option>
+                <option value="OPTIMAL">Optimal</option>
+              </select>
+            </label>
+            <label class="full">
+              Page Reference String (comma-separated)
+              <input id="referenceString" value="7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2" />
+            </label>
+          </div>
+          <button id="runVM">Run Virtual Memory</button>
+          <div id="vmOutput" class="output"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Operating Systems Project • Dynamic Memory Management Visualizer</p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>

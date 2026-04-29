@@ -15,10 +15,10 @@ No backend or build step is required.
 
 ## Features
 
-- User-defined memory inputs for each simulator
-- Page fault and hit tracking with fault-rate calculation
-- Step-by-step frame state timeline for virtual memory
-- Clean tabbed UI with result tables for easy comparison
+- Segmentation Simulation
+- Paging Simulation
+- Virtual Memory Simulation
+- FIFO, LRU, Optimal Algorithms
 
 ## Suggested Demo Cases
 

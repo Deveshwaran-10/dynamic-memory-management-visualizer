@@ -201,3 +201,6 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+ button:hover {
+  opacity: 0.9;
+}

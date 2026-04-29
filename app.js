@@ -1,7 +1,6 @@
 function byId(id) {
   return document.getElementById(id);
 }
-
 function escapeHtml(value) {
   return String(value)
     .replaceAll("&", "&amp;")

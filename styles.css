@@ -204,3 +204,7 @@ footer {
  button:hover {
   opacity: 0.9;
 }
+
+body {
+  scroll-behavior: smooth;
+}

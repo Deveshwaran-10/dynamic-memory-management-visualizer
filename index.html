@@ -7,12 +7,41 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div class="bg-orb orb-a"></div>
+    <div class="bg-orb orb-b"></div>
+    <div class="bg-orb orb-c"></div>
+
+    <div class="side-animation left">
+      <div class="stream" style="--delay: 0s;"></div>
+      <div class="stream" style="--delay: 1.2s;"></div>
+      <div class="stream" style="--delay: 0.5s;"></div>
+    </div>
+    <div class="side-animation right">
+      <div class="stream" style="--delay: 0.3s;"></div>
+      <div class="stream" style="--delay: 1.8s;"></div>
+      <div class="stream" style="--delay: 0.9s;"></div>
+    </div>
+
     <header class="hero">
       <h1>Dynamic Memory Management Visualizer</h1>
       <p>
         Explore paging, segmentation, and virtual memory with interactive
         simulations.
       </p>
+      <div class="hero-stats">
+        <article>
+          <span class="stat-label">Simulators</span>
+          <strong>3 Core Modes</strong>
+        </article>
+        <article>
+          <span class="stat-label">Algorithms</span>
+          <strong>FIFO • LRU • Optimal</strong>
+        </article>
+        <article>
+          <span class="stat-label">Output</span>
+          <strong>Animated + Stepwise</strong>
+        </article>
+      </div>
     </header>
 
     <main class="layout">
@@ -28,6 +57,16 @@
         <p class="tip">
           Tip: Adjust inputs and run each simulator to compare how memory is managed.
         </p>
+        <details class="guide" open>
+          <summary>How to Use This Visualizer</summary>
+          <ol>
+            <li>Select a mode: Segmentation, Paging, or Virtual Memory.</li>
+            <li>Use <strong>Load Example</strong> to start quickly or enter your own data.</li>
+            <li>Click <strong>Run Simulation</strong> to generate animated output.</li>
+            <li>In Virtual Memory, use step controls to play each memory access.</li>
+            <li>Compare page faults/hits across algorithms for analysis.</li>
+          </ol>
+        </details>
       </aside>
 
       <section class="panel simulator">
@@ -39,6 +78,7 @@
 
         <div class="tab-content active" id="segmentation">
           <h2>Segmentation Simulator</h2>
+          <p class="section-help">Enter segment table and logical requests, then run translation checks.</p>
           <div class="grid">
             <label>
               Segment Table (CSV: id,base,limit per line)
@@ -51,12 +91,23 @@
               <input id="segmentRequests" value="0:120, 1:1100, 2:700, 1:100" />
             </label>
           </div>
-          <button id="runSegmentation">Run Segmentation</button>
+          <div class="action-row">
+            <button id="segExample" class="ghost">Load Example</button>
+            <button id="segClear" class="ghost">Clear Inputs</button>
+            <button id="runSegmentation">Run Segmentation</button>
+          </div>
+          <div id="segFeedback" class="feedback">Ready to simulate segmentation.</div>
+          <div id="segmentViz" class="viz-grid"></div>
           <div id="segmentationOutput" class="output"></div>
+          <div class="chart-panel">
+            <h3>Segmentation Analysis</h3>
+            <canvas id="segChart"></canvas>
+          </div>
         </div>
 
         <div class="tab-content" id="paging">
           <h2>Paging Simulator</h2>
+          <p class="section-help">Set page/frame values and addresses to test logical-to-physical mapping.</p>
           <div class="grid two">
             <label>
               Page Size
@@ -75,12 +126,23 @@
               <input id="pagingRequests" value="120, 300, 700, 1025, 3000" />
             </label>
           </div>
-          <button id="runPaging">Run Paging</button>
+          <div class="action-row">
+            <button id="pagingExample" class="ghost">Load Example</button>
+            <button id="pagingClear" class="ghost">Clear Inputs</button>
+            <button id="runPaging">Run Paging</button>
+          </div>
+          <div id="pagingFeedback" class="feedback">Ready to simulate paging.</div>
+          <div id="pagingViz" class="viz-grid"></div>
           <div id="pagingOutput" class="output"></div>
+          <div class="chart-panel">
+            <h3>Paging Analysis</h3>
+            <canvas id="pagingChart"></canvas>
+          </div>
         </div>
 
         <div class="tab-content" id="virtual">
           <h2>Virtual Memory Simulator</h2>
+          <p class="section-help">Choose frames, algorithm, and reference string to analyze page replacement.</p>
           <div class="grid two">
             <label>
               Number of Frames
@@ -99,8 +161,31 @@
               <input id="referenceString" value="7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2" />
             </label>
           </div>
-          <button id="runVM">Run Virtual Memory</button>
+          <div class="action-row">
+            <button id="vmExample" class="ghost">Load Example</button>
+            <button id="vmClear" class="ghost">Clear Inputs</button>
+            <button id="runVM">Run Virtual Memory</button>
+          </div>
+          <div id="vmFeedback" class="feedback">Ready to simulate virtual memory.</div>
+          <div class="vm-controls">
+            <button id="vmPrev" class="ghost">Previous</button>
+            <button id="vmNext" class="ghost">Next</button>
+            <button id="vmPlay" class="ghost">Auto Play</button>
+            <button id="vmReset" class="ghost">Reset</button>
+          </div>
+          <div id="vmStepInfo" class="step-info">Run the simulation to enable step playback.</div>
+          <div id="vmFrameViz" class="frame-viz"></div>
           <div id="vmOutput" class="output"></div>
+          <div class="chart-grid">
+            <div class="chart-panel">
+              <h3>Hits vs Faults</h3>
+              <canvas id="vmPieChart"></canvas>
+            </div>
+            <div class="chart-panel">
+              <h3>Step-wise Events</h3>
+              <canvas id="vmLineChart"></canvas>
+            </div>
+          </div>
         </div>
       </section>
     </main>
@@ -109,6 +194,7 @@
       <p>Operating Systems Project • Dynamic Memory Management Visualizer</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="app.js"></script>
   </body>
 </html>

@@ -1,12 +1,14 @@
 :root {
-  --bg: #0b1020;
-  --panel: #121a32;
-  --panel-2: #192447;
-  --text: #e7ecff;
-  --muted: #98a7d4;
-  --accent: #6da9ff;
-  --ok: #35d09a;
-  --warn: #ff7e8b;
+  --bg: #050811;
+  --panel: rgba(10, 15, 30, 0.5);
+  --panel-border: rgba(50, 80, 150, 0.4);
+  --panel-2: rgba(15, 25, 45, 0.6);
+  --text: #ffffff;
+  --muted: #aab8d8;
+  --accent: #00f0ff;
+  --accent-2: #bc13fe;
+  --ok: #00ffcc;
+  --warn: #ff2a6d;
 }
 
 * {
@@ -15,19 +17,60 @@
 
 body {
   margin: 0;
-  font-family: "Segoe UI", Roboto, sans-serif;
-  background: linear-gradient(160deg, #060912, var(--bg));
+  font-family: "Inter", "Segoe UI", Roboto, sans-serif;
+  background:
+    linear-gradient(to bottom, rgba(5, 8, 17, 0.75), rgba(5, 8, 17, 0.95)),
+    url('os-bg.png') center/cover no-repeat fixed,
+    radial-gradient(circle at top left, rgba(20, 30, 71, 0.5), transparent 58%);
   color: var(--text);
   min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.bg-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(50px);
+  opacity: 0.23;
+  pointer-events: none;
+  animation: float 14s ease-in-out infinite;
+}
+
+.orb-a {
+  width: 260px;
+  height: 260px;
+  background: #6c7dff;
+  left: -50px;
+  top: 70px;
+}
+
+.orb-b {
+  width: 240px;
+  height: 240px;
+  background: #2cd8ff;
+  right: -80px;
+  top: 230px;
+  animation-delay: -4s;
+}
+
+.orb-c {
+  width: 220px;
+  height: 220px;
+  background: #ab73ff;
+  left: 28%;
+  bottom: -90px;
+  animation-delay: -8s;
 }
 
 .hero {
   padding: 2rem 1rem 1rem;
   text-align: center;
+  animation: slideInTop 0.7s ease;
 }
 
 .hero h1 {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
 .hero p {
@@ -35,8 +78,31 @@ body {
   margin: 0;
 }
 
+.hero-stats {
+  width: min(1020px, 95%);
+  margin: 1rem auto 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.hero-stats article {
+  background: linear-gradient(135deg, rgba(118, 178, 255, 0.16), rgba(154, 124, 255, 0.11));
+  border: 1px solid #33518f;
+  border-radius: 12px;
+  padding: 0.8rem;
+  backdrop-filter: blur(6px);
+}
+
+.stat-label {
+  display: block;
+  color: var(--muted);
+  font-size: 0.82rem;
+  margin-bottom: 0.2rem;
+}
+
 .layout {
-  width: min(1100px, 95%);
+  width: min(1200px, 95%);
   margin: 1rem auto 2rem;
   display: grid;
   grid-template-columns: 280px 1fr;
@@ -44,11 +110,13 @@ body {
 }
 
 .panel {
-  background: rgba(18, 26, 50, 0.92);
-  border: 1px solid #283867;
-  border-radius: 12px;
-  padding: 1rem;
-  backdrop-filter: blur(4px);
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 10px 40px rgba(248, 248, 248, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .info ul {
@@ -65,6 +133,32 @@ body {
   font-size: 0.92rem;
 }
 
+.guide {
+  margin-top: 0.8rem;
+  border: 1px solid #375392;
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+  background: rgba(18, 34, 72, 0.55);
+}
+
+.guide summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: #d9e6ff;
+}
+
+.guide ol {
+  margin: 0.65rem 0 0;
+  padding-left: 1rem;
+  color: var(--muted);
+}
+
+.section-help {
+  margin: 0 0 0.65rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
 .tabs {
   display: flex;
   gap: 0.5rem;
@@ -75,21 +169,31 @@ body {
 .tab {
   background: var(--panel-2);
   color: var(--text);
-  border: 1px solid #31467e;
-  border-radius: 8px;
-  padding: 0.5rem 0.85rem;
+  border: 1px solid #38518d;
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
   cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.tab:hover {
+  transform: translateY(-1px);
+  border-color: #5e8be8;
 }
 
 .tab.active {
-  background: var(--accent);
-  color: #001330;
-  border-color: transparent;
-  font-weight: 600;
+  color: #ffffff;
+  border: 0;
+  border-radius: 9px;
+  padding: 0.62rem 1rem;
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
 .tab-content {
   display: none;
+  animation: fadeIn 0.35s ease;
 }
 
 .tab-content.active {
@@ -113,7 +217,7 @@ body {
 label {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.35rem;
   font-size: 0.92rem;
   color: var(--muted);
 }
@@ -128,11 +232,22 @@ button {
 input,
 select,
 textarea {
-  background: #0d1430;
+  background: rgba(5, 10, 20, 0.6);
   color: var(--text);
-  border: 1px solid #2f457a;
-  border-radius: 8px;
-  padding: 0.6rem 0.7rem;
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: 9px;
+  padding: 0.62rem 0.72rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  backdrop-filter: blur(4px);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 0;
+  border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+  background: rgba(10, 20, 40, 0.8);
 }
 
 textarea {
@@ -141,22 +256,161 @@ textarea {
 }
 
 button {
-  background: var(--accent);
-  color: #001330;
+  /* background: linear-gradient(120deg, var(--accent), var(--accent-2)); */
+  color: #000;
   border: 0;
-  border-radius: 8px;
-  padding: 0.6rem 1rem;
+  border-radius: 9px;
+  padding: 0.62rem 1rem;
   cursor: pointer;
   font-weight: 700;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px var(--accent), 0 0 25px var(--accent-2);
+  filter: brightness(1.1);
+}
+
+.ghost {
+  background: rgba(18, 31, 67, 0.5);
+  color: #dce6ff;
+  border: 1px solid rgba(50, 80, 150, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+.action-row {
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.feedback {
+  margin-top: 0.65rem;
+  color: #bcd0ff;
+  background: rgba(22, 39, 84, 0.55);
+  border: 1px solid #36508a;
+  border-radius: 8px;
+  padding: 0.5rem 0.65rem;
+  animation: fadeIn 0.25s ease;
+}
+
+.vm-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.7rem;
+  flex-wrap: wrap;
+}
+
+.step-info {
+  margin-top: 0.75rem;
+  color: var(--muted);
 }
 
 .output {
   margin-top: 1rem;
   background: #0a1027;
-  border: 1px solid #2b3d6e;
-  border-radius: 8px;
+  border: 1px solid #2c4378;
+  border-radius: 10px;
   padding: 0.8rem;
   overflow: auto;
+  animation: fadeIn 0.4s ease;
+}
+
+.chart-grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.chart-panel {
+  margin-top: 1rem;
+  border: 1px solid rgba(50, 80, 150, 0.4);
+  border-radius: 12px;
+  background: rgba(10, 15, 30, 0.4);
+  backdrop-filter: blur(10px);
+  padding: 0.8rem;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.chart-panel h3 {
+  margin: 0 0 0.6rem;
+  font-size: 0.95rem;
+  color: #d4e2ff;
+}
+
+.chart-panel canvas {
+  width: 100%;
+  min-height: 240px;
+}
+
+.viz-grid {
+  margin-top: 0.95rem;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.memory-chip {
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  background: rgba(15, 25, 45, 0.6);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  padding: 0.6rem 0.7rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #dce6ff;
+  animation: pop 0.35s ease;
+}
+
+.memory-chip.fault {
+  border-color: var(--warn);
+  box-shadow: 0 0 10px rgba(255, 42, 109, 0.3);
+}
+
+.memory-chip.okay {
+  border-color: var(--ok);
+  box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+}
+
+.chip-badge {
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.8rem;
+  background: #162754;
+  color: #b9cdff;
+}
+
+.frame-viz {
+  margin-top: 0.85rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
+  gap: 0.55rem;
+}
+
+.frame-cell {
+  background: rgba(15, 25, 45, 0.6);
+  border: 1px solid rgba(50, 80, 150, 0.5);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  min-height: 74px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  animation: pop 0.28s ease;
+}
+
+.frame-index {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.frame-page {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-top: 0.2rem;
 }
 
 table {
@@ -167,23 +421,23 @@ table {
 
 th,
 td {
-  border: 1px solid #2a3b69;
+  border: 1px solid #2a3f70;
   padding: 0.45rem;
   text-align: center;
 }
 
 th {
-  background: #121c3d;
+  background: #121f44;
 }
 
 .ok {
   color: var(--ok);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .warn {
   color: var(--warn);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 footer {
@@ -192,19 +446,119 @@ footer {
   padding: 0 1rem 1.2rem;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInTop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
 @media (max-width: 900px) {
   .layout {
     grid-template-columns: 1fr;
   }
 
-  .grid.two {
+  .grid.two,
+  .hero-stats,
+  .chart-grid {
     grid-template-columns: 1fr;
   }
 }
- button:hover {
-  opacity: 0.9;
+
+/* Side Animations */
+.side-animation {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  display: flex;
+  justify-content: space-around;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.7;
 }
 
-body {
-  scroll-behavior: smooth;
+.side-animation.left {
+  left: 3%;
+}
+
+.side-animation.right {
+  right: 3%;
+}
+
+.side-animation .stream {
+  width: 2px;
+  height: 180px;
+  background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+  box-shadow: 0 0 15px var(--accent);
+  animation: dataDrop 3.5s linear infinite;
+  animation-delay: var(--delay);
+  transform: translateY(-200px);
+}
+
+@keyframes dataDrop {
+  0% {
+    transform: translateY(-200px);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 1350px) {
+  .side-animation {
+    display: none;
+  }
 }
